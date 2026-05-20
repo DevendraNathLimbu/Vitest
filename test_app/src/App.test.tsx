@@ -1,17 +1,21 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom";
 import App from "./App";
 
-describe("App component test suite", () => {
-    it("should render the app with correct initial state", () => {
-        render(<App/>)
-        screen.debug(undefined, 100000000)
-    })
+describe("Form Testing", () => {
+  it("allows user to type into inputs", async () => {
+    const user = userEvent.setup();
 
-    it.only("should render component with props", () => {
-        render(<App name="Learn testing in react"/>)
-        const heading = screen.getByText("Learn testing in react")
-        screen.debug(undefined, 100000000)
-        expect(heading).toBeDefined()
-    })
-})
+    render(<App />);
+
+    await user.type(screen.getByLabelText(/your name/i), "John");
+    await user.type(screen.getByLabelText(/email/i), "john@gmail.com");
+    await user.type(screen.getByLabelText(/password/i), "123456");
+
+    expect(screen.getByLabelText(/your name/i)).toHaveValue("John");
+    expect(screen.getByLabelText(/email/i)).toHaveValue("john@gmail.com");
+    expect(screen.getByLabelText(/password/i)).toHaveValue("123456");
+  });
+});
