@@ -10,6 +10,8 @@ describe("Form Testing", () => {
 
     render(<App />);
 
+    screen.debug();
+
     await user.type(screen.getByLabelText(/your name/i), "John");
     await user.type(screen.getByLabelText(/email/i), "john@gmail.com");
     await user.type(screen.getByLabelText(/password/i), "123456");
